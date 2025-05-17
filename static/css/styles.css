@@ -1,0 +1,95 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0fff0;
+    color: #333;
+}
+
+.container {
+    width: 60%;
+    margin: auto;
+    padding: 2em;
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+input[type="file"] {
+    margin: 1em 0;
+}
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+button:hover {
+    background-color: #45a049;
+}
+h1 {
+    color: #4CAF50;
+}
+h2 {
+    color: #333;
+}
+h3 {
+    color: #666;
+}
+h4 {
+    color: #999;
+}
+h5 {
+    color: #ccc;
+}
+h6 {
+    color: #eee;
+}
+p {
+    font-size: 1.2em;
+}
+p.error {
+    color: red;
+}
+p.success {
+    color: green;
+}
+p.warning {
+    color: orange;
+}
+p.info {
+    color: blue;
+}
+p.note {
+    color: #666;
+}
+p.important {
+    color: #000;
+}
+p.urgent {
+    color: #ff0000;
+}
+p.optional {
+    color: #999;
+}
+p.optional {
+    color: #999;
+}
+p.optional {
+    color: #999;
+}
+p.optional {
+    color: #999;
+}
+p.optional {
+    color: #999;
+}
+p.optional {
+    color: #999;
+}
+p.optional {
+    color: #999;
+}
+p.optional {
+    color: #999;
+}
