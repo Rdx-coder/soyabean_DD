@@ -1,22 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Detection Result</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Detection Result - Soybean Disease Detector</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; padding: 20px;
+    }
+
+    .result-card {
+      background: #fff;
+      border-radius: 1rem;
+      padding: 2rem 2.5rem;
+      max-width: 700px;
+      width: 100%;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .result-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 45px rgba(0,0,0,0.25);
+    }
+
+    h1 {
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1.3px;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+    }
+
+    p {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: #34495e;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    strong {
+      color: #0984e3;
+    }
+
+    em {
+      color: #636e72;
+      font-style: italic;
+    }
+
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      margin: 2rem 0;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border-radius: 12px;
+      border: none;
+    }
+
+    a.back-link {
+      display: inline-block;
+      margin-top: 2.25rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: #2575fc;
+      border: 2px solid #2575fc;
+      padding: 0.7rem 2rem;
+      border-radius: 50px;
+      transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    a.back-link:hover,
+    a.back-link:focus {
+      background: #2575fc;
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(37,117,252,0.6);
+      outline: none;
+      text-decoration: none;
+    }
+
+    @media (max-width: 480px) {
+      .result-card {
+        padding: 1.5rem 1.75rem;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-    <h1>Detection Result</h1>
+  <main class="result-card" role="main" aria-labelledby="result-title">
+    <h1 id="result-title">Detection Result</h1>
+
     <p><strong>Disease:</strong> {{ label }}</p>
-    <p><strong>Recommended Solution:</strong> {{ solution }}</p>
-    {% if video_url %}
-        <p><strong>Watch this video:</strong></p>
-        <iframe width="560" height="315" src="{{ video_url }}" frameborder="0" allowfullscreen></iframe>
+
+    <!-- Detailed 30+ words solution based on disease -->
+    <p><strong>Recommended Solution:</strong>
+      {% if label == "Mossaic Virus" %}
+        Use virus-resistant soybean varieties and practice strict vector control by managing whiteflies and aphids. Regular field monitoring and timely insecticide application help reduce virus spread significantly.
+      {% elif label == "Southern blight" %}
+        Apply fungicides such as PCNB and ensure proper soil drainage to avoid waterlogging. Crop rotation and removing infected plant debris also reduce pathogen survival in the soil.
+      {% elif label == "Sudden Death Syndrome" %}
+        Use resistant soybean varieties and implement crop rotation with non-host crops. Avoid excessive nitrogen fertilization and improve soil structure to reduce disease incidence.
+      {% elif label == "Yellow Mosaic" %}
+        Control whiteflies using insecticides and trap crops. Use virus-free and certified seeds, and remove infected plants promptly to prevent the disease from spreading.
+      {% elif label == "bacterial_blight" %}
+        Use copper-based bactericides and maintain field sanitation by removing infected leaves and debris. Avoid overhead irrigation to reduce leaf wetness duration, limiting bacterial growth.
+      {% elif label == "brown_spot" %}
+        Apply fungicides like chlorothalonil or mancozeb during early disease onset. Improve air circulation by adequate plant spacing and timely weed control to reduce humidity levels.
+      {% elif label == "crestamento" %}
+        Maintain proper nutrient balance, especially potassium and nitrogen, and avoid water stress. Regular soil testing and timely irrigation prevent nutrient deficiencies and disease development.
+      {% elif label == "ferrugen" %}
+        Improve soil health with organic amendments and balanced fertilization. Investigate for nutrient deficiencies, especially iron, and manage soil pH to enhance plant resistance to ferrugen.
+      {% elif label == "powdery_mildew" %}
+        Use sulfur-based fungicides at recommended intervals. Increase spacing between plants to improve airflow and reduce humidity, which discourages fungal growth on soybean leaves.
+      {% elif label == "septoria" %}
+        Remove infected plant debris and apply protective fungicides early in the growing season. Practice crop rotation and use resistant varieties to minimize disease impact on yield.
+      {% else %}
+        No specific solution available. Please consult local agricultural experts for advice.
+      {% endif %}
+    </p>
+
+    {% if label in ["Mossaic Virus", "Southern blight", "Sudden Death Syndrome", "Yellow Mosaic", "bacterial_blight", "brown_spot", "crestamento", "ferrugen", "powdery_mildew", "septoria"] %}
+      <p><strong>Watch this video:</strong></p>
+      <div class="video-wrapper">
+        <iframe
+          src="{% if label == 'Mossaic Virus' %}https://www.youtube.com/embed/xSOxnbzqAPQ?si=mwPVZ4dodu0iCxEG
+               {% elif label == 'Southern blight' %}https://www.youtube.com/embed/_sgKPCHjoAw?si=qd6IY6yiC34vV8iP
+               {% elif label == 'Sudden Death Syndrome' %}https://www.youtube.com/embed/046Z2jo9t2Q?si=zbomyaDa8uZGX9sO
+               {% elif label == 'Yellow Mosaic' %}https://www.youtube.com/embed/GgXSXeNzj_I?si=6b-oixiok1iN996S
+               {% elif label == 'bacterial_blight' %}https://www.youtube.com/embed/elVSfq_FFyI?si=MEeV-ZPcv02M2ilJ
+               {% elif label == 'brown_spot' %}https://www.youtube.com/embed/rjGi9Mzf-3w?si=sO7o6EnwrHFI1wBP
+               {% elif label == 'crestamento' %}https://www.youtube.com/embed/11dn6M5gPxI?si=sY6jvb3KL3fhCqrB
+               {% elif label == 'ferrugen' %}https://www.youtube.com/embed/Ej_7jRqQY-0?si=e_chUTjTHwXk97j3
+               {% elif label == 'powdery_mildew' %}https://www.youtube.com/embed/1yhfFRS-09Q?si=nkVHDCR5jX0eUdam
+               {% elif label == 'septoria' %}https://www.youtube.com/embed/TRL08Nm07UY?si=AUjOuKgNOIbqxOLa
+               {% else %}# {% endif %}"
+          title="Disease solution video"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>
     {% else %}
-        <p><em>No video available for this disease.</em></p>
+      <p><em>No video available for this disease.</em></p>
     {% endif %}
-    <br><br>
-    <a href="/">Try another image</a>
-</div>
+
+    <a href="/" class="back-link" aria-label="Try another image">Try another image</a>
+  </main>
+
+  <!-- Bootstrap Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
